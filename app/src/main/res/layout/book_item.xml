@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Layout for a single book item. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/book_cover_thumb"
+        android:layout_width="48dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/holo_green_dark"
+        android:contentDescription="@string/book_cover_imageview_description" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/book_author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            tools:text="Delores Penumbra"
+            />
+
+        <TextView
+            android:id="@+id/book_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            tools:text="How to tame an SDK: TextView of the Young Girl as an Engineer"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/book_published_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textSize="12sp"
+            tools:text="Jun 16, 2017"
+            />
+
+        <TextView
+            android:id="@+id/book_pages_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textSize="12sp"
+            tools:text="512 pages"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
