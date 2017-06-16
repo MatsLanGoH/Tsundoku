@@ -18,4 +18,4 @@ This app is built to show a grasp of the following basic elements in creating a 
 - Custom Adapters
 
 ### Additional notes:
-The term _Tsundoku_ refers to the Japanese term "_積読_", which translates to "collecting books without reading them"or
+The term _Tsundoku_ refers to the Japanese term "_積読_", which translates to "collecting books without reading them".
