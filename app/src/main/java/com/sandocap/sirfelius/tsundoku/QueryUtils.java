@@ -13,6 +13,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Helper methods related to querying the Google Books API and parsing the response JSON data.
  */
@@ -33,8 +35,15 @@ class QueryUtils {
         URL url = createUrl(requestUrl);
 
         // TODO: Perform HTTP request to the URL and receive a JSON response back.
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error closing input stream", e);
+        }
 
         // TODO: Return a real list instead.
+        Log.v(LOG_TAG, "jsonResponse: " + jsonResponse);
         return new ArrayList<>();
     }
 
@@ -56,20 +65,20 @@ class QueryUtils {
 
 
     /**
-     * Make an HTTP request to the given URL and return a String as response
+     * Make an HTTPs request to the given URL and return a String as response
      **/
-    private String makeHttpRequest(URL url) throws IOException {
+    private static String makeHttpRequest(URL url) throws IOException {
         String response = "";
 
         if (url == null) {
             return response;
         }
 
-        HttpURLConnection urlConnection = null;
+        HttpsURLConnection urlConnection = null;
         InputStream inputStream = null;
 
         try {
-            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection = (HttpsURLConnection) url.openConnection();
             urlConnection.setConnectTimeout(10000);
             urlConnection.setReadTimeout(15000);
             urlConnection.setRequestMethod("GET");
@@ -99,16 +108,17 @@ class QueryUtils {
     /**
      * Convert the {@link InputStream} into a String which contains the response from the server.
      **/
-    private String readFromStream(InputStream inputStream) throws IOException {
+    private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
 
         if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
+
             while (line != null) {
                 output.append(line);
-                reader.readLine();
+                line = reader.readLine();
             }
         }
 
