@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
                 + "More information: " + testBook.getUrl() + "\n";
 
         // Make sure that TextView works
+        // TODO: Replace this with an actual call to an adapter
         TextView textView = (TextView) findViewById(R.id.simple_text_view);
-        textView.setText(API_QUERY_MOCK);
+        textView.setText(testBookString);
     }
 }
