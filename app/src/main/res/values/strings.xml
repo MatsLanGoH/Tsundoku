@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tsundoku</string>
+    <string name="search_button">Search</string>
+    <string name="book_cover_imageview_description">Book cover image</string>
+</resources>
