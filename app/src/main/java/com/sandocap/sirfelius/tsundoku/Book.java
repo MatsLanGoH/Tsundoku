@@ -26,4 +26,34 @@ class Book {
         mPublishedDate = publishedDate;
         mPageCount = pageCount;
     }
+
+    /** Get the title of the Book. */
+    String getTitle() {
+        return mTitle;
+    }
+
+    /** Get the author of the Book. */
+    String getAuthor() {
+        return mAuthor;
+    }
+
+    /** Get the url of the Book. */
+    String getUrl() {
+        return mUrl;
+    }
+
+    /** Get the snippet of the Book. */
+    String getSnippet() {
+        return mSnippet;
+    }
+
+    /** Get the published date of the Book. */
+    String getPublishedDate() {
+        return mPublishedDate;
+    }
+
+    /** Get the page count of the Book. */
+    int getPageCount() {
+        return mPageCount;
+    }
 }

@@ -18,6 +18,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Create a placeholder book
+        // TODO: Use a real book instead.
+        Book testBook = new Book("How to tame an SDK", "Brody Clankerwaft", "https://www.goodreads.com", "She was a seamstress. Now she puts Docstrings to REST.", "Jun 16, 2017", 1337);
+
+        // Create a String to display (since we don't have an adapter yet)
+        // TODO: Well, implement that adapter.
+        String testBookString = testBook.getAuthor() + ": "
+                + testBook.getTitle() + "\n"
+                + "\"" + testBook.getSnippet() + "\"\n"
+                + "Published on: " + testBook.getPublishedDate() + " / "
+                + String.valueOf(testBook.getPageCount()) + " pages\n"
+                + "More information: " + testBook.getUrl() + "\n";
+
         // Make sure that TextView works
         TextView textView = (TextView) findViewById(R.id.simple_text_view);
         textView.setText(API_QUERY_MOCK);
