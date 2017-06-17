@@ -61,15 +61,50 @@ class BookAdapter extends ArrayAdapter<Book> {
 
             // Find the TextView in the book_item.xml with the ID book_title.
             TextView bookTitleView = (TextView) listItemView.findViewById(R.id.book_title);
-
             // Get book title for current book.
             String bookTitle = currentBook.getTitle();
-
             // Display the title of the current book in that TextView.
             bookTitleView.setText(bookTitle);
 
+
+            // Find the TextView in the book_item.xml with the ID book_author_name.
+            TextView bookAuthorView = (TextView) listItemView.findViewById(R.id.book_author_name);
+            // Get book author for current book.
+            String bookAuthor = currentBook.getAuthor();
+            // Display the author of the current book in that TextView.
+            bookAuthorView.setText(bookAuthor);
+
+
+            // Find the TextView in the book_item.xml with the ID book_published_date.
+            TextView bookPublishedDateView = (TextView) listItemView.findViewById(R.id.book_published_date);
+            // Get book published date for current book.
+            String bookPublishedDate = currentBook.getPublishedDate();
+            // Display the published date of the current book in that TextView.
+            bookPublishedDateView.setText(bookPublishedDate);
+
+
+            // Find the TextView in the book_item.xml with the ID book_page_count.
+            TextView bookPageCountView = (TextView) listItemView.findViewById(R.id.book_page_count);
+            // Get book page count for current book.
+            String bookPageCount = formattedPageCount(currentBook.getPageCount());
+            // Display the page count of the current book in that TextView.
+            bookPageCountView.setText(bookPageCount);
         }
 
         return listItemView;
+    }
+
+
+    /**
+     * Return the formatted page count string from an int value.
+     */
+    private String formattedPageCount(int pageCount) {
+        String pageCountString;
+        if (pageCount == 0) {
+            pageCountString = "Unknown";
+        } else {
+            pageCountString = String.valueOf(pageCount) + " pages";
+        }
+        return pageCountString;
     }
 }
