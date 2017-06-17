@@ -81,7 +81,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(List<Book> books) {
             Log.v(LOG_TAG, String.valueOf(books));
 
-            // TODO: Implement adapter and add books to adapter.
+            // Clear the adapter of previous book data.
+            mAdapter.clear();
+
+            // If there is a valid list of {@link Book}s, add them to the adapter's data set.
+            if (books != null && !books.isEmpty()) {
+                mAdapter.addAll(books);
+            }
         }
     }
 
