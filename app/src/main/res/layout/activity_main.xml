@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    android:orientation="vertical"
     tools:context="com.sandocap.sirfelius.tsundoku.MainActivity">
 
-
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -27,15 +26,25 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:text="@string/search_button" />
-
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/simple_text_view"
+
+    <!-- Layout for a list of books -->
+    <ListView
+        android:id="@+id/book_list"
+        android:layout_below="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
+        android:divider="@null"
+        android:dividerHeight="8dp" />
+
+    <!-- Layout for an empty list (no data loaded) -->
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:textAppearance="?android:textAppearanceMedium"
         tools:text="Search anything!" />
 
-</LinearLayout>
+</RelativeLayout>

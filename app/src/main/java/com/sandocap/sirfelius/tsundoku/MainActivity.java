@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -37,8 +38,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Make sure that TextView works
         // TODO: Replace this with an actual call to an adapter
-        TextView textView = (TextView) findViewById(R.id.simple_text_view);
+        TextView textView = (TextView) findViewById(R.id.empty_view);
         textView.setText(testBookString);
+
+        // Get a reference to EditText field
+        EditText editText = (EditText) findViewById(R.id.search_query);
+
 
         // Test to see if we can get some output from the API for now
         // TODO: Use a loader instead of the AsyncTask
