@@ -2,6 +2,10 @@ package com.sandocap.sirfelius.tsundoku;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -123,5 +127,74 @@ class QueryUtils {
         }
 
         return output.toString();
+    }
+
+
+    /**
+     * Return a list of {@link Book} objects that has been built up from
+     * parsing a JSON response.
+     **/
+    private static List<Book> extractItemFromJson(String jsonResponse) {
+        // Create an empty ArrayList to hold Book objects.
+        List<Book> books = new ArrayList<>();
+
+        try {
+            // Convert jsonResponse into a JSONObject.
+            JSONObject baseJsonResponse = new JSONObject(jsonResponse);
+
+            // Extract "items" JSONArray
+            JSONArray itemsArray = baseJsonResponse.getJSONArray("items");
+
+            // Loop through each item in the array.
+            for (int i = 0; i < itemsArray.length(); i++) {
+
+                // Get book JSONObject at position i
+                JSONObject currentBook = itemsArray.getJSONObject(i);
+
+                // Extract "volumeInfo" JSONObject
+                JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
+
+                // Extract "title" for title
+                String title = volumeInfo.getString("title");
+
+                // Extract "authors" JSONArray
+                JSONArray authors = volumeInfo.getJSONArray("authors");
+
+                // Extract first author in authors as author
+                // TODO: Deal with multiple authors.
+                String author = authors.getString(0);
+
+
+                // Extract "accessInfo" JSONObject
+                JSONObject accessInfo = currentBook.getJSONObject("accessInfo");
+
+                // Extract "webReaderLink" for url
+                // TODO: Include buy link?
+                String url = accessInfo.getString("webReaderLink");
+
+                // Extract "description" for snippet
+                // TODO: Shorten texts?
+                String snippet = volumeInfo.getString("description");
+
+                // Extract "publishedDate" for publishedDate
+                String publishedDate = volumeInfo.getString("publishedDate");
+
+                // Extract "pageCount" for pageCount
+                int pageCount = volumeInfo.getInt("pageCount");
+
+                // Create Book object from JSON data
+                Book book = new Book(title, author, url, snippet, publishedDate, pageCount);
+
+                // Add Book to list of books.
+                books.add(book);
+            }
+
+        } catch (JSONException e) {
+            // Handle invalid JSON data
+            Log.e(LOG_TAG, "Problem parsing the JSON results", e);
+        }
+
+        // Return the list of books.
+        return books;
     }
 }

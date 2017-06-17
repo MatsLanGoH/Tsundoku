@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** Mock string for API request */
     static final String API_QUERY_MOCK =
-            "https://www.googleapis.com/books/v1/volumes?q=harry+inauthor:rowling&results=1";
+            "https://www.googleapis.com/books/v1/volumes?q=harry+inauthor:rowling&langRestrict=en";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
