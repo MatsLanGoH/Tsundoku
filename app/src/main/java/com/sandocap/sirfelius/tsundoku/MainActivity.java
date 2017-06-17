@@ -48,24 +48,24 @@ public class MainActivity extends AppCompatActivity {
     /**
      * AsyncTask to download Book data
      **/
-    private class BookAsyncTask extends AsyncTask<String, Void, Book> {
+    private class BookAsyncTask extends AsyncTask<String, Void, List<Book>> {
 
         @Override
-        protected Book doInBackground(String... urls) {
+        protected List<Book> doInBackground(String... urls) {
             // Do nothing if there are no valid URLs.
             if (urls.length < 1 || urls[0] == null) {
                 return null;
             }
 
             // Perform the HTTP request for book data and process the response.
-            List<Book> results = QueryUtils.fetchBookData(urls[0]);
-
-            return null;
+            return QueryUtils.fetchBookData(urls[0]);
         }
 
         @Override
-        protected void onPostExecute(Book book) {
-            Log.v(LOG_TAG, book.toString());
+        protected void onPostExecute(List<Book> books) {
+            Log.v(LOG_TAG, String.valueOf(books));
+
+            // TODO: Implement adapter and add books to adapter.
         }
     }
 

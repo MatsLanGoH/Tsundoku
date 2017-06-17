@@ -31,6 +31,7 @@ class QueryUtils {
     /** private constructor, {@link QueryUtils} should never be instantiated */
     private QueryUtils() {}
 
+
     /**
      * Query the Google Books API and return a {@link List<Book>} to represent a list of books.
      **/
@@ -46,9 +47,8 @@ class QueryUtils {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
 
-        // TODO: Return a real list instead.
-        Log.v(LOG_TAG, "jsonResponse: " + jsonResponse);
-        return new ArrayList<>();
+        // Return the List<Book>
+        return extractItemFromJson(jsonResponse);
     }
 
 
@@ -180,7 +180,12 @@ class QueryUtils {
                 String publishedDate = volumeInfo.getString("publishedDate");
 
                 // Extract "pageCount" for pageCount
-                int pageCount = volumeInfo.getInt("pageCount");
+                // TODO: Set "0" pages for books without pageCount info for now.
+                // We still need to handle pages with undefined pageCount in the Adapter.
+                int pageCount = 0;
+                if (volumeInfo.has("pageCount")) {
+                    pageCount = volumeInfo.getInt("pageCount");
+                }
 
                 // Create Book object from JSON data
                 Book book = new Book(title, author, url, snippet, publishedDate, pageCount);
