@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,32 +20,41 @@ public class MainActivity extends AppCompatActivity {
     static final String API_QUERY_MOCK =
             "https://www.googleapis.com/books/v1/volumes?q=harry+inauthor:rowling&langRestrict=en";
 
+
+    /**
+     * Adapter for a list of books
+     **/
+    private BookAdapter mAdapter;
+
+    /**
+     * TextView that is displayed when the list is empty.
+     */
+    private TextView mEmptyStateTextView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create a placeholder book
-        // TODO: Use a real book instead.
-        Book testBook = new Book("How to tame an SDK", "Brody Clankerwaft", "https://www.goodreads.com", "She was a seamstress. Now she puts Docstrings to REST.", "Jun 16, 2017", 1337);
+        // Find a reference to the {@link ListView} in the layout.
+        ListView bookListView = (ListView) findViewById(R.id.book_list);
 
-        // Create a String to display (since we don't have an adapter yet)
-        // TODO: Well, implement that adapter.
-        String testBookString = testBook.getAuthor() + ": "
-                + testBook.getTitle() + "\n"
-                + "\"" + testBook.getSnippet() + "\"\n"
-                + "Published on: " + testBook.getPublishedDate() + " / "
-                + String.valueOf(testBook.getPageCount()) + " pages\n"
-                + "More information: " + testBook.getUrl() + "\n";
+        // Set the empty View on the {@link ListView}
+        // in case the list cannot be populated.
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        bookListView.setEmptyView(mEmptyStateTextView);
 
-        // Make sure that TextView works
-        // TODO: Replace this with an actual call to an adapter
-        TextView textView = (TextView) findViewById(R.id.empty_view);
-        textView.setText(testBookString);
+        // Create a new adapter that takes an empty list of books as an input.
+        mAdapter = new BookAdapter(this, new ArrayList<Book>());
+
+        // Set the adapter on the {@link ListView}
+        // so the list can be populated in the user interface.
+        bookListView.setAdapter(mAdapter);
+
 
         // Get a reference to EditText field
         EditText editText = (EditText) findViewById(R.id.search_query);
-
 
         // Test to see if we can get some output from the API for now
         // TODO: Use a loader instead of the AsyncTask
