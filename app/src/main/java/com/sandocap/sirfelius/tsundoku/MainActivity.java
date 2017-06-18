@@ -17,8 +17,10 @@ public class MainActivity extends AppCompatActivity {
     static final String LOG_TAG = MainActivity.class.getName();
 
     /** Mock string for API request */
+    static final String API_BASE_URL_MOCK =
+            "https://www.googleapis.com/books/v1/volumes?";
     static final String API_QUERY_MOCK =
-            "https://www.googleapis.com/books/v1/volumes?q=harry+inauthor:rowling&langRestrict=en";
+            "Madness";
 
 
     /**
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Test to see if we can get some output from the API for now
         // TODO: Use a loader instead of the AsyncTask
-        new BookAsyncTask().execute(API_QUERY_MOCK);
+        new BookAsyncTask().execute(String.format("%sq=%s", API_BASE_URL_MOCK, API_QUERY_MOCK));
     }
 
     /**
