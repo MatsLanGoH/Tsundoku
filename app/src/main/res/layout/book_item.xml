@@ -13,7 +13,6 @@
         android:layout_width="48dp"
         android:layout_height="60dp"
         android:layout_gravity="center_vertical"
-        android:background="@android:color/holo_green_dark"
         android:contentDescription="@string/book_cover_imageview_description" />
 
     <LinearLayout

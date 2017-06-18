@@ -173,7 +173,7 @@ class QueryUtils {
                 String url = accessInfo.getString("webReaderLink");
 
                 // Extract "imageLinks" JSONObject
-                JSONObject imageLinks = currentBook.getJSONObject("imageLinks");
+                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
 
                 // Extract "smallThumbnail" for imageUrl
                 String imageUrl = imageLinks.getString("smallThumbnail");

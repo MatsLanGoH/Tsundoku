@@ -1,6 +1,7 @@
 package com.sandocap.sirfelius.tsundoku;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,7 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.net.URL;
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 /**
@@ -63,9 +65,9 @@ class BookAdapter extends ArrayAdapter<Book> {
             // Find the ImageView in the book_item.xml with the ID book_cover_thumb
             ImageView bookCoverThumbView = (ImageView) listItemView.findViewById(R.id.book_cover_thumb);
             // Get imageUrl for current book.
-            URL bookCoverThumbUrl = currentBook.getImageUrl();
+            String bookCoverThumbUrl = currentBook.getImageUrl();
             // Display the cover of the current book in that ImageView.
-
+            Glide.with(getContext()).load(Uri.parse(bookCoverThumbUrl)).into(bookCoverThumbView);
 
             // Find the TextView in the book_item.xml with the ID book_title.
             TextView bookTitleView = (TextView) listItemView.findViewById(R.id.book_title);

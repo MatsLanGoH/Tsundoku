@@ -1,10 +1,5 @@
 package com.sandocap.sirfelius.tsundoku;
 
-import android.util.Log;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
  * {@link Book} represents a single Book.
  * Each object has 7 properties:
@@ -63,13 +58,8 @@ class Book {
     }
 
     /** Get the imageUrl of the Book. */
-    URL getImageUrl() {
-        try {
-            return new URL(mImageUrl);
-        } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Invalid imageUrl", e);
-        }
-        return null;
+    String getImageUrl() {
+        return mImageUrl;
     }
 
     /** Get the page count of the Book. */
