@@ -3,7 +3,8 @@ package com.sandocap.sirfelius.tsundoku;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Find a reference to the {@link Button} in the layout.
+        Button button = (Button) findViewById(R.id.search_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitSearch(v);
+            }
+        });
+
         // Find a reference to the {@link ListView} in the layout.
         ListView bookListView = (ListView) findViewById(R.id.book_list);
 
@@ -53,14 +63,6 @@ public class MainActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface.
         bookListView.setAdapter(mAdapter);
-
-
-        // Get a reference to EditText field
-        EditText editText = (EditText) findViewById(R.id.search_query);
-
-        // Test to see if we can get some output from the API for now
-        // TODO: Use a loader instead of the AsyncTask
-        new BookAsyncTask().execute(String.format("%sq=%s", API_BASE_URL_MOCK, API_QUERY_MOCK));
     }
 
     /**
@@ -81,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Book> books) {
-            Log.v(LOG_TAG, String.valueOf(books));
-
             // Clear the adapter of previous book data.
             mAdapter.clear();
 
@@ -91,6 +91,19 @@ public class MainActivity extends AppCompatActivity {
                 mAdapter.addAll(books);
             }
         }
+    }
+
+    /**
+     * This method is called when the search button is clicked.
+     */
+    public void submitSearch(View view) {
+        // Get text from search field.
+        EditText editText = (EditText) findViewById(R.id.search_query);
+        String searchQuery = editText.getText().toString();
+
+        // Test to see if we can get some output from the API for now
+        // TODO: Use a loader instead of the AsyncTask
+        new BookAsyncTask().execute(String.format("%sq=%s", API_BASE_URL_MOCK, searchQuery));
     }
 
 }
