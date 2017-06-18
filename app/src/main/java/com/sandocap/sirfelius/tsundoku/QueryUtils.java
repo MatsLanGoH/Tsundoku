@@ -158,12 +158,14 @@ class QueryUtils {
                 String title = volumeInfo.getString("title");
 
                 // Extract "authors" JSONArray
-                JSONArray authors = volumeInfo.getJSONArray("authors");
+                String author = "Unknown author";
+                if (volumeInfo.has("authors")) {
+                    JSONArray authors = volumeInfo.getJSONArray("authors");
 
-                // Extract first author in authors as author
-                // TODO: Deal with multiple authors.
-                String author = authors.getString(0);
-
+                    // Extract first author in authors as author
+                    // TODO: Deal with multiple authors.
+                    author = authors.getString(0);
+                }
 
                 // Extract "accessInfo" JSONObject
                 JSONObject accessInfo = currentBook.getJSONObject("accessInfo");
@@ -172,18 +174,27 @@ class QueryUtils {
                 // TODO: Include buy link?
                 String url = accessInfo.getString("webReaderLink");
 
-                // Extract "imageLinks" JSONObject
-                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                String imageUrl = "";
+                if (volumeInfo.has("imageLinks")) {
+                    // Extract "imageLinks" JSONObject
+                    JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
 
-                // Extract "smallThumbnail" for imageUrl
-                String imageUrl = imageLinks.getString("smallThumbnail");
+                    // Extract "smallThumbnail" for imageUrl
+                    imageUrl = imageLinks.getString("smallThumbnail");
+                }
 
                 // Extract "description" for snippet
                 // TODO: Shorten texts?
-                String snippet = volumeInfo.getString("description");
+                String snippet = "";
+                if (volumeInfo.has("description")) {
+                    snippet = volumeInfo.getString("description");
+                }
 
                 // Extract "publishedDate" for publishedDate
-                String publishedDate = volumeInfo.getString("publishedDate");
+                String publishedDate = "Unknown";
+                if (volumeInfo.has("publishedDate")) {
+                    publishedDate = volumeInfo.getString("publishedDate");
+                }
 
                 // Extract "pageCount" for pageCount
                 // TODO: Set "0" pages for books without pageCount info for now.
