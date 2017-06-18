@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -58,6 +60,12 @@ class BookAdapter extends ArrayAdapter<Book> {
 
         if (currentBook != null) {
             // TODO: Implement book covers!
+            // Find the ImageView in the book_item.xml with the ID book_cover_thumb
+            ImageView bookCoverThumbView = (ImageView) listItemView.findViewById(R.id.book_cover_thumb);
+            // Get imageUrl for current book.
+            URL bookCoverThumbUrl = currentBook.getImageUrl();
+            // Display the cover of the current book in that ImageView.
+
 
             // Find the TextView in the book_item.xml with the ID book_title.
             TextView bookTitleView = (TextView) listItemView.findViewById(R.id.book_title);

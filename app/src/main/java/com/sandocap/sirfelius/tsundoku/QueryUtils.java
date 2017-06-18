@@ -172,6 +172,12 @@ class QueryUtils {
                 // TODO: Include buy link?
                 String url = accessInfo.getString("webReaderLink");
 
+                // Extract "imageLinks" JSONObject
+                JSONObject imageLinks = currentBook.getJSONObject("imageLinks");
+
+                // Extract "smallThumbnail" for imageUrl
+                String imageUrl = imageLinks.getString("smallThumbnail");
+
                 // Extract "description" for snippet
                 // TODO: Shorten texts?
                 String snippet = volumeInfo.getString("description");
@@ -188,7 +194,7 @@ class QueryUtils {
                 }
 
                 // Create Book object from JSON data
-                Book book = new Book(title, author, url, snippet, publishedDate, pageCount);
+                Book book = new Book(title, author, url, snippet, publishedDate, imageUrl, pageCount);
 
                 // Add Book to list of books.
                 books.add(book);
