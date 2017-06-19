@@ -1,11 +1,14 @@
 package com.sandocap.sirfelius.tsundoku;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -74,6 +77,28 @@ public class MainActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface.
         bookListView.setAdapter(mAdapter);
+
+        // Set item click listener on the ListView to send an intent to web browser
+        // so users can open a website with information about the selected book.
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the book that was clicked on
+                Book currentBook = mAdapter.getItem(position);
+
+                // Convert the String URL into a URI object to pass into the Intent constructor
+                Uri bookUri = null;
+                if (currentBook != null) {
+                    bookUri = Uri.parse(currentBook.getUrl());
+                }
+
+                // Create a new Intent to view the book URI.
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
+
+                // Send the Intent to launch a new activity
+                startActivity(websiteIntent);
+            }
+        });
     }
 
     /**
