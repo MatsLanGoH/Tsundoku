@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     // TODO: Use an UriBuilder to create the request address.
     static final String API_BASE_URL_MOCK =
             "https://www.googleapis.com/books/v1/volumes?";
-    static final String API_QUERY_MOCK =
+    private static String apiQuery =
             "Madness";
 
     /** Constant value for the book loader ID. */
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 // Get the book that was clicked on
                 Book currentBook = mAdapter.getItem(position);
 
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
         // Create a new Loader for the given URL.
-        return new BookLoader(this, String.format("%sq=%s", API_BASE_URL_MOCK, API_QUERY_MOCK) );
+        return new BookLoader(this, String.format("%sq=%s", API_BASE_URL_MOCK, apiQuery) );
 
     }
 
@@ -182,11 +183,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void submitSearch(View view) {
         // Get text from search field.
         EditText editText = (EditText) findViewById(R.id.search_query);
-        String searchQuery = editText.getText().toString();
+        apiQuery = editText.getText().toString();
 
         // Test to see if we can get some output from the API for now
         // TODO: Use a loader instead of the AsyncTask
-        new BookAsyncTask().execute(String.format("%sq=%s", API_BASE_URL_MOCK, searchQuery));
+        getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
+
+//        new BookAsyncTask().execute(String.format("%sq=%s", API_BASE_URL_MOCK, searchQuery));
     }
 
 }
