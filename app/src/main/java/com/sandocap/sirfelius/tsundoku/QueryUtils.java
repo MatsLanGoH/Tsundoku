@@ -158,13 +158,19 @@ class QueryUtils {
                 String title = volumeInfo.getString("title");
 
                 // Extract "authors" JSONArray
-                String author = "Unknown author";
+                String author = "";
                 if (volumeInfo.has("authors")) {
                     JSONArray authors = volumeInfo.getJSONArray("authors");
 
-                    // Extract first author in authors as author
-                    // TODO: Deal with multiple authors.
-                    author = authors.getString(0);
+                    // Get all authors.
+                    for (int j = 0; j < authors.length(); j++) {
+                        if (j != 0) {
+                            author += ", ";
+                        }
+                        author += authors.getString(j);
+                    }
+                } else {
+                    author = "Unknown author";
                 }
 
                 // Extract "accessInfo" JSONObject
