@@ -177,7 +177,6 @@ class QueryUtils {
                 JSONObject accessInfo = currentBook.getJSONObject("accessInfo");
 
                 // Extract "webReaderLink" for url
-                // TODO: Include buy link?
                 String url = accessInfo.getString("webReaderLink");
 
                 String imageUrl = "";
@@ -203,8 +202,7 @@ class QueryUtils {
                 }
 
                 // Extract "pageCount" for pageCount
-                // TODO: Set "0" pages for books without pageCount info for now.
-                // We still need to handle pages with undefined pageCount in the Adapter.
+                // Pages with 0 pages are handled in {@link Book}'s getter method for pageCount.
                 int pageCount = 0;
                 if (volumeInfo.has("pageCount")) {
                     pageCount = volumeInfo.getInt("pageCount");

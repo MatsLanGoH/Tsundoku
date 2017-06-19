@@ -2,4 +2,5 @@
     <string name="app_name">Tsundoku</string>
     <string name="search_button">Search</string>
     <string name="book_cover_imageview_description">Book cover image</string>
+    <string name="result_no_books_found">No books found.</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.sandocap.sirfelius.tsundoku;
 
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,22 +14,26 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
     /** Activity Log String */
     static final String LOG_TAG = MainActivity.class.getName();
 
     /** Mock string for API request */
+    // TODO: Use an UriBuilder to create the request address.
     static final String API_BASE_URL_MOCK =
             "https://www.googleapis.com/books/v1/volumes?";
     static final String API_QUERY_MOCK =
             "Madness";
 
+    /** Constant value for the book loader ID. */
+    private static final int BOOK_LOADER_ID = 12;
 
     /**
      * Adapter for a list of books
@@ -99,6 +105,47 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(websiteIntent);
             }
         });
+
+        // Get a reference to the LoaderManager to interact with loaders.
+        LoaderManager loaderManager = getLoaderManager();
+
+        // Initialize the loader with the constant ID defined above, and
+        // this activity for the LoaderCallbacks parameter.
+        loaderManager.initLoader(BOOK_LOADER_ID, null, this);
+
+
+    }
+
+    /* The following methods were implemented through the LoaderCallbacks interface */
+    @Override
+    public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
+        // Create a new Loader for the given URL.
+        return new BookLoader(this, String.format("%sq=%s", API_BASE_URL_MOCK, API_QUERY_MOCK) );
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Book>> loader, List<Book> data) {
+        // Hide progress indicator
+        ProgressBar loadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
+
+        // Set empty state text to display "No books found."
+        mEmptyStateTextView.setText(R.string.result_no_books_found);
+
+        // Clear the adapter of previous earthquake data.
+        mAdapter.clear();
+
+        // If there is a valid list of {@link Book}s, then add them to the adapter's data set.
+        if (data != null && !data.isEmpty()) {
+            mAdapter.addAll(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Book>> loader) {
+        // Clear the existing data from the adapter.
+        mAdapter.clear();
     }
 
     /**
