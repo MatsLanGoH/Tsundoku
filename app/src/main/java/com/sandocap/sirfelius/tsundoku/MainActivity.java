@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -150,34 +149,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     /**
-     * AsyncTask to download Book data
-     **/
-    private class BookAsyncTask extends AsyncTask<String, Void, List<Book>> {
-
-        @Override
-        protected List<Book> doInBackground(String... urls) {
-            // Do nothing if there are no valid URLs.
-            if (urls.length < 1 || urls[0] == null) {
-                return null;
-            }
-
-            // Perform the HTTP request for book data and process the response.
-            return QueryUtils.fetchBookData(urls[0]);
-        }
-
-        @Override
-        protected void onPostExecute(List<Book> books) {
-            // Clear the adapter of previous book data.
-            mAdapter.clear();
-
-            // If there is a valid list of {@link Book}s, add them to the adapter's data set.
-            if (books != null && !books.isEmpty()) {
-                mAdapter.addAll(books);
-            }
-        }
-    }
-
-    /**
      * This method is called when the search button is clicked.
      */
     public void submitSearch(View view) {
@@ -189,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // TODO: Use a loader instead of the AsyncTask
         getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
 
-//        new BookAsyncTask().execute(String.format("%sq=%s", API_BASE_URL_MOCK, searchQuery));
     }
 
 }
