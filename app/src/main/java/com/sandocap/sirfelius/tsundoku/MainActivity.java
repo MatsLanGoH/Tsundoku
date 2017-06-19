@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     static final String API_BASE_URL_MOCK =
             "https://www.googleapis.com/books/v1/volumes?";
     private static String apiQuery =
-            "Madness";
+            "";
 
     /** Constant value for the book loader ID. */
     private static final int BOOK_LOADER_ID = 12;
@@ -119,9 +119,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     /* The following methods were implemented through the LoaderCallbacks interface */
     @Override
     public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
-        // Create a new Loader for the given URL.
-        return new BookLoader(this, String.format("%sq=%s", API_BASE_URL_MOCK, apiQuery) );
+        // Show progress indicator
+        ProgressBar loadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.VISIBLE);
 
+        // Create a new Loader for the given URL if there is a query string.
+        return new BookLoader(this, String.format("%sq=%s", API_BASE_URL_MOCK, apiQuery) );
     }
 
     @Override
@@ -156,9 +159,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         EditText editText = (EditText) findViewById(R.id.search_query);
         apiQuery = editText.getText().toString();
 
-        // Test to see if we can get some output from the API for now
-        // TODO: Use a loader instead of the AsyncTask
-        getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
+        // Restart loader if we have a query string
+        if (apiQuery.length() > 0) {
+            getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
+        }
 
     }
 
