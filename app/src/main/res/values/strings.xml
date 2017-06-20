@@ -4,4 +4,5 @@
     <string name="book_cover_imageview_description">Book cover image</string>
     <string name="result_no_books_found">No books found.</string>
     <string name="find_books_text_view">Enter search text here.</string>
+    <string name="no_internet_connection_string">Not connected to the internet.</string>
 </resources>

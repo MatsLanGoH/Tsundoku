@@ -4,15 +4,15 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -23,17 +23,26 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
-    /** Activity Log String */
+    /**
+     * Activity Log String
+     */
     static final String LOG_TAG = MainActivity.class.getName();
 
-    /** Mock string for API request */
+    /**
+     * Base String for API request
+     */
     // TODO: Use an UriBuilder to create the request address.
-    static final String API_BASE_URL_MOCK =
+    static final String BOOKS_API_BASE_URL =
             "https://www.googleapis.com/books/v1/volumes?";
+    /**
+     * String to hold API query
+     */
     private static String apiQuery =
             "";
 
-    /** Constant value for the book loader ID. */
+    /**
+     * Constant value for the book loader ID.
+     */
     private static final int BOOK_LOADER_ID = 12;
 
     /**
@@ -54,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         /* Reference to SearchView field. */
         final SearchView searchView = (SearchView) findViewById(R.id.search_query);
+
         // Expand and clear focus.
         searchView.setIconified(false);
         searchView.clearFocus();
@@ -86,8 +96,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Find a reference to the {@link ListView} in the layout.
         ListView bookListView = (ListView) findViewById(R.id.book_list);
 
-        // Set the empty View on the {@link ListView}
-        // in case the list cannot be populated.
+        // Set the empty View on the {@link ListView} in case the list cannot be populated.
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         bookListView.setEmptyView(mEmptyStateTextView);
 
@@ -121,13 +130,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        // Get a reference to the LoaderManager to interact with loaders.
-        LoaderManager loaderManager = getLoaderManager();
+        /* Following section is used to check connectivity */
+        // Get a reference to the ConnectivityManager to check the state of network connectivity.
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
-        // Initialize the loader with the constant ID defined above, and
-        // this activity for the LoaderCallbacks parameter.
-        loaderManager.initLoader(BOOK_LOADER_ID, null, this);
+        // Get details on the currently active default network
+        boolean isConnected = activeNetwork != null &&
+                              activeNetwork.isConnectedOrConnecting();
 
+
+        if (isConnected) {
+            // Get a reference to the LoaderManager to interact with loaders.
+            LoaderManager loaderManager = getLoaderManager();
+
+            // Initialize the loader with the constant ID defined above, and
+            // this activity for the LoaderCallbacks parameter.
+            loaderManager.initLoader(BOOK_LOADER_ID, null, this);
+        } else {
+            // Hide progress indicator
+            ProgressBar loadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.GONE);
+
+            // Disable search button
+            button.setEnabled(false);
+
+            // Display error
+            mEmptyStateTextView.setText(R.string.no_internet_connection_string);
+        }
 
     }
 
@@ -139,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         loadingIndicator.setVisibility(View.VISIBLE);
 
         // Create a new Loader for the given URL if there is a query string.
-        return new BookLoader(this, String.format("%sq=%s", API_BASE_URL_MOCK, apiQuery) );
+        return new BookLoader(this, String.format("%sq=%s", BOOKS_API_BASE_URL, apiQuery));
     }
 
     @Override
@@ -174,7 +204,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (apiQuery.length() > 0) {
             getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
         }
-
     }
-
 }
