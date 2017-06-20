@@ -21,6 +21,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
     /**
@@ -67,6 +69,36 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Expand and clear focus.
         searchView.setIconified(false);
         searchView.clearFocus();
+
+        // Implement listener for searchView
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Hide on screen keyboard if present.
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                // Hide keyboard if present
+                inputMethodManager.hideSoftInputFromWindow(
+                        null == getCurrentFocus() ? null : getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
+                // Get text from search field and update apiQuery.
+                apiQuery = query;
+
+                // Remove focus from searchView
+                searchView.clearFocus();
+
+                // Then start search.
+                submitSearch();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         // Find a reference to the {@link Button} in the layout.
         Button button = (Button) findViewById(R.id.search_button);
@@ -150,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
             // Hide progress indicator
             ProgressBar loadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-            loadingIndicator.setVisibility(View.GONE);
+            loadingIndicator.setVisibility(GONE);
 
             // Disable search button
             button.setEnabled(false);
@@ -176,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> data) {
         // Hide progress indicator
         ProgressBar loadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-        loadingIndicator.setVisibility(View.GONE);
+        loadingIndicator.setVisibility(GONE);
 
         // Set empty state text to display "No books found."
         mEmptyStateTextView.setText(R.string.result_no_books_found);
@@ -200,6 +232,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * This method is called when the search button is clicked.
      */
     public void submitSearch() {
+        // Clear error text
+        mEmptyStateTextView.setText("");
+
         // Restart loader if we have a query string
         if (apiQuery.length() > 0) {
             getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
