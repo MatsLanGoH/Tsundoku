@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,6 +52,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /* Reference to SearchView field. */
+        final SearchView searchView = (SearchView) findViewById(R.id.search_query);
+        // Expand and clear focus.
+        searchView.setIconified(false);
+        searchView.clearFocus();
+
         // Find a reference to the {@link Button} in the layout.
         Button button = (Button) findViewById(R.id.search_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +73,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
                 // Get text from search field and update apiQuery.
-                EditText editText = (EditText) findViewById(R.id.search_query);
-                apiQuery = editText.getText().toString();
+                apiQuery = searchView.getQuery().toString();
 
-                // Remove focus from editText
-                editText.clearFocus();
+                // Remove focus from searchView
+                searchView.clearFocus();
 
                 // Then start search.
                 submitSearch();

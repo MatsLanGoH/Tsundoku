@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
+        <SearchView
             android:id="@+id/search_query"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -21,7 +21,7 @@
             android:inputType="text"
             android:imeOptions="actionSearch"
             android:padding="8dp"
-            android:hint="@string/find_books_text_view"
+            android:queryHint="@string/find_books_text_view"
             android:textColorHint="@android:color/darker_gray" />
 
         <Button
