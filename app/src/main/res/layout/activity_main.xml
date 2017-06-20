@@ -17,9 +17,12 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:labelFor="@id/search_query"
             android:inputType="text"
+            android:imeOptions="actionSearch"
             android:padding="8dp"
-            tools:text="Enter search text here..." />
+            android:hint="@string/find_books_text_view"
+            android:textColorHint="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/search_button"

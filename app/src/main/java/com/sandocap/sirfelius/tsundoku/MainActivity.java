@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Hide on screen keyboard if present.
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -63,8 +64,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         null == getCurrentFocus() ? null : getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
+                // Get text from search field and update apiQuery.
+                EditText editText = (EditText) findViewById(R.id.search_query);
+                apiQuery = editText.getText().toString();
+
+                // Remove focus from editText
+                editText.clearFocus();
+
                 // Then start search.
-                submitSearch(v);
+                submitSearch();
             }
         });
 
@@ -154,11 +162,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     /**
      * This method is called when the search button is clicked.
      */
-    public void submitSearch(View view) {
-        // Get text from search field.
-        EditText editText = (EditText) findViewById(R.id.search_query);
-        apiQuery = editText.getText().toString();
-
+    public void submitSearch() {
         // Restart loader if we have a query string
         if (apiQuery.length() > 0) {
             getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
