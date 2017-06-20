@@ -201,7 +201,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         loadingIndicator.setVisibility(View.VISIBLE);
 
         // Create a new Loader for the given URL if there is a query string.
-        return new BookLoader(this, String.format("%sq=%s", BOOKS_API_BASE_URL, apiQuery));
+        if (apiQuery.length() > 0) {
+            return new BookLoader(this, String.format("%sq=%s", BOOKS_API_BASE_URL, apiQuery));
+        } else {
+            return new BookLoader(this, null);
+        }
     }
 
     @Override
