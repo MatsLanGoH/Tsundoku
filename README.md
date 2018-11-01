@@ -21,4 +21,4 @@ This app is built to show a grasp of the following basic elements in creating a 
 The term _Tsundoku_ refers to the Japanese term "_積読_", which translates to "collecting books without reading them".
 
 ### Warning
-This needs an update.
+This needs an update. _It really does_.
